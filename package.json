@@ -14,7 +14,9 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "express": "*",
     "nodemon": "^2.0.6"
+  },
+  "dependencies": {
+    "express": "*"
   }
 }
