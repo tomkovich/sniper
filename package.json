@@ -8,7 +8,7 @@
     "npm": "6.14.0"
   },
   "scripts": {
-    "dev": "nodemon index.js"
+    "start": "node index.js"
   },
   "keywords": [],
   "author": "",
