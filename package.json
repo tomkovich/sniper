@@ -8,7 +8,8 @@
     "npm": "6.14.0"
   },
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "node index.js node_env=production",
+    "dev": "nodemon index.js node_env=development"
   },
   "keywords": [],
   "author": "",
