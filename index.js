@@ -24,7 +24,7 @@ const PORT = process.env.PORT || 5000
 
 mongoose.connect(mongodbURI,   
   {
-    useUnifiedTopology: true,  // установка опций
+    useUnifiedTopology: true,
     useNewUrlParser: true
   }
 )
