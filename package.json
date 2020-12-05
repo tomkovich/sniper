@@ -17,7 +17,9 @@
     "nodemon": "^2.0.6"
   },
   "dependencies": {
+    "cookie-session": "^1.4.0",
     "express": "*",
+    "mongoose": "^5.11.4",
     "passport": "^0.4.1",
     "passport-google-oauth20": "^2.0.0"
   }

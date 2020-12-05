@@ -1,31 +1,37 @@
 const express = require('express');
-const { googleClientID, googleClientSecret } = require('./config/keys');
+const mongoose = require('mongoose');
+const cookieSession = require('cookie-session')
+const passport = require('passport')
+const { mongodbURI, cookieKey } = require('./config/keys')
+
+require('./models/User')
+require('./services/passport')
+
 const app = express()
 
-const passport = require('passport')
-const GoogleStrategy = require('passport-google-oauth20').Strategy;
- 
-passport.use(new GoogleStrategy({
-    clientID: googleClientID,
-    clientSecret: googleClientSecret,
-    callbackURL: "/auth/google/callback"
-  },
-  function(accessToken, refreshToken, profile, cb) {
-    console.log(profile)
-  }
-));
+app.use(
+  cookieSession({
+    maxAge: 30 * 24 * 60 * 60 * 1000,
+    keys: [cookieKey]
+  })
+)
 
-app.get('/auth/google',
-  passport.authenticate('google', { scope: ['profile', 'email'] }));
+app.use(passport.initialize())
+app.use(passport.session())
 
-app.get('/auth/google/callback', 
-  passport.authenticate('google', { failureRedirect: '/login', successRedirect: '/' }),
-  function(req, res) {
-    // Successful authentication, redirect home.
-    res.redirect('/');
-  });
-
+require('./routes/authRoutes.js')(app)
 const PORT = process.env.PORT || 5000
-app.listen(PORT, () => {
-    console.log(`Server is running at ${PORT} port`)
+
+mongoose.connect(mongodbURI,   
+  {
+    useUnifiedTopology: true,  // установка опций
+    useNewUrlParser: true
+  }
+)
+.then(() => {
+    console.log(`Server is running at ${PORT} port`) 
+    return app.listen(PORT);
 })
+.catch((err) => {
+  console.error(err);
+});
