@@ -9,7 +9,9 @@
   },
   "scripts": {
     "start": "node index.js node_env=production",
-    "dev": "nodemon index.js node_env=development"
+    "server": "nodemon index.js node_env=development",
+    "client": "npm run start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "keywords": [],
   "author": "",
@@ -18,8 +20,10 @@
     "nodemon": "^2.0.6"
   },
   "dependencies": {
+    "concurrently": "^5.3.0",
     "cookie-session": "^1.4.0",
     "express": "*",
+    "http-proxy-middleware": "^1.0.6",
     "mongoose": "^5.11.4",
     "passport": "^0.4.1",
     "passport-google-oauth20": "^2.0.0"
