@@ -4,9 +4,9 @@ import { connect } from "react-redux";
 
 import { fetchUser } from "../actions";
 
-import Header from "./Header";
 import Landing from "./Landing";
 import Posts from "./Posts";
+import Header from "./Header/index";
 
 const App = ({ fetchUser }) => {
   useEffect(() => {

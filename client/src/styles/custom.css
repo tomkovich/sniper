@@ -3,8 +3,8 @@ img {
   height: auto;
 }
 
-.ml5 {
-  margin-left: 5px;
+.ml15 {
+  margin-left: 15px;
 }
 
 nav .brand-logo {
@@ -13,4 +13,31 @@ nav .brand-logo {
   justify-content: center;
   width: 50px;
   height: 100%;
+}
+
+.payments-component {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.money-btn {
+  background-color: #b12872;
+}
+
+.money-btn:hover,
+.money-btn:active,
+.money-btn:focus {
+  background-color: #791f4f;
+}
+
+.credits-count {
+  font-size: 13px;
+}
+
+.credits-count span {
+  font-weight: bold;
+  font-size: 15px;
+  margin-right: 5px;
 }
