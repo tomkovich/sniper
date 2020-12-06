@@ -22,6 +22,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 require("./routes/authRoutes.js")(app);
+require("./routes/recipesRoutes.js")(app);
 require("./routes/billingRoutes.js")(app);
 
 if (process.env.NODE_ENV === "production") {
@@ -38,6 +39,7 @@ mongoose
   .connect(mongodbURI, {
     useUnifiedTopology: true,
     useNewUrlParser: true,
+    useFindAndModify: false,
   })
   .then(() => {
     console.log(`Server is running at ${PORT} port`);

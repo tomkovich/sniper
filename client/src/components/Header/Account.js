@@ -1,8 +1,19 @@
+import Axios from "axios";
 import React from "react";
 
 import Payments from "../Payments";
 
 const Account = ({ user }) => {
+  const handleClick = async () => {
+    const res = await Axios.post("/api/survey", {
+      title: "meow",
+      body: "Hey people",
+      subject: "A new cat",
+      recipients: "opa@mail.com",
+    });
+    console.log(res);
+  };
+
   return (
     <>
       <Payments />
@@ -10,6 +21,7 @@ const Account = ({ user }) => {
         Your Credits: <span>{user.credits}</span>
       </div>
       <a href="/api/logout">{user.name}</a>
+      <button onClick={handleClick}>Send</button>
     </>
   );
 };

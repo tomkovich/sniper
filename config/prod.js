@@ -6,4 +6,5 @@ module.exports = {
   googleRedirectURI: "https://peaceful-beach-87434.herokuapp.com",
   stripePublicKey: process.env.STRIPE_PUBLIC_KEY,
   stripeSecretKey: process.env.STRIPE_SECRET_KEY,
+  sendInBlueKey: process.env.SEND_IN_BLUE_KEY,
 };
