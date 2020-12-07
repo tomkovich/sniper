@@ -1,4 +1,5 @@
 const passport = require("passport");
+const createSendToken = require("../utils/createSendToken");
 
 module.exports = (app) => {
   app.get(
@@ -10,16 +11,8 @@ module.exports = (app) => {
     "/auth/google/callback",
     passport.authenticate("google"),
     (req, res) => {
+      createSendToken(req.user, 200, res);
       res.redirect(`http://localhost:3000/posts`);
     }
   );
-
-  app.get("/api/logout", (req, res) => {
-    req.logout();
-    res.redirect("/");
-  });
-
-  app.get("/api/current_user", (req, res) => {
-    res.send(req.user);
-  });
 };

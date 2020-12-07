@@ -22,6 +22,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 require("./routes/authRoutes.js")(app);
+require("./routes/userRoutes.js")(app);
 require("./routes/recipesRoutes.js")(app);
 require("./routes/billingRoutes.js")(app);
 

@@ -21,14 +21,17 @@
     "nodemon": "^2.0.6"
   },
   "dependencies": {
+    "bcrypt": "^5.0.0",
     "body-parser": "^1.19.0",
     "concurrently": "^5.3.0",
     "cookie-session": "^1.4.0",
     "express": "*",
     "http-proxy-middleware": "^1.0.6",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.11.4",
     "passport": "^0.4.1",
     "passport-google-oauth20": "^2.0.0",
-    "stripe": "^8.127.0"
+    "stripe": "^8.127.0",
+    "validator": "^13.5.1"
   }
 }
