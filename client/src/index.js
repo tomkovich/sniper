@@ -1,4 +1,3 @@
-import "materialize-css/dist/css/materialize.min.css";
 import "./styles/custom.css";
 
 import React from "react";
