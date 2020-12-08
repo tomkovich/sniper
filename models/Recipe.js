@@ -19,6 +19,7 @@ const RecipeSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
+  photo: String,
 });
 
 const Recipe = mongoose.model("Recipe", RecipeSchema);

@@ -1,6 +1,8 @@
 const User = require("../models/User");
 const AppError = require("../utils/AppError");
 const createSendToken = require("../utils/createSendToken");
+const { protect } = require("../utils/protect");
+const { uploadImages, resizeImages } = require("../utils/upload");
 
 module.exports = (app) => {
   app.post("/api/signup", async (req, res, next) => {
@@ -23,6 +25,8 @@ module.exports = (app) => {
       console.log(err);
     }
   });
+
+  app.use(protect);
 
   app.get("/api/logout", (req, res) => {
     res.cookie("jwt", "loggedout", {
@@ -51,4 +55,48 @@ module.exports = (app) => {
       console.log(err);
     }
   });
+
+  app.get("/api/user/:id", async (req, res, next) => {
+    try {
+      const user = await User.findById(req.params.id);
+
+      if (!user)
+        return next(new AppError("Not found document with that ID!", 404));
+
+      res.status(200).json({
+        status: "success",
+        data: {
+          data: user,
+        },
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  });
+
+  app.patch(
+    "/api/user/:id",
+    uploadImages,
+    resizeImages,
+    async (req, res, next) => {
+      try {
+        const user = await User.findByIdAndUpdate(req.params.id, req.body, {
+          new: true,
+          runValidators: true,
+        });
+
+        if (!user)
+          return next(new AppError("Not found document with that ID!", 404));
+
+        res.status(200).json({
+          status: "success",
+          data: {
+            data: user,
+          },
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  );
 };

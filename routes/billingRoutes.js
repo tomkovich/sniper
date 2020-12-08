@@ -1,10 +1,10 @@
 const { stripeSecretKey } = require("../config/keys");
-const requireLogin = require("../middlewares/requireLogin");
+const { protect } = require("../utils/protect");
 
 const stripe = require("stripe")(stripeSecretKey);
 
 module.exports = (app) => {
-  app.post("/api/stripe", requireLogin, async (req, res) => {
+  app.post("/api/stripe", protect, async (req, res) => {
     try {
       const customer = await stripe.customers.create({
         email: req.body.email,
