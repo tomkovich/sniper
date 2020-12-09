@@ -1,6 +1,7 @@
-const requireLogin = require("../middlewares/requireLogin");
 const Recipe = require("../models/Recipe");
 const AppError = require("../utils/AppError");
+const { protect } = require("../utils/protect");
+const { uploadImages, resizeImages } = require("../utils/upload");
 
 module.exports = (app) => {
   app.get("/api/recipes", async (req, res) => {
@@ -38,7 +39,9 @@ module.exports = (app) => {
     }
   });
 
-  app.post("/api/recipes", requireLogin, async (req, res) => {
+  app.use(protect);
+
+  app.post("/api/recipes", async (req, res) => {
     const recipe = await Recipe.create(req.body);
 
     res.status(201).json({
@@ -49,7 +52,7 @@ module.exports = (app) => {
     });
   });
 
-  app.delete("/api/recipes/:id", requireLogin, async (req, res, next) => {
+  app.delete("/api/recipes/:id", async (req, res, next) => {
     try {
       const recipe = await Recipe.findByIdAndDelete(req.params.id);
 
@@ -65,24 +68,29 @@ module.exports = (app) => {
     }
   });
 
-  app.patch("/api/recipes/:id", async (req, res, next) => {
-    try {
-      const recipe = await Recipe.findByIdAndUpdate(req.params.id, req.body, {
-        new: true,
-        runValidators: true,
-      });
+  app.patch(
+    "/api/recipes/:id",
+    uploadImages,
+    resizeImages,
+    async (req, res, next) => {
+      try {
+        const recipe = await Recipe.findByIdAndUpdate(req.params.id, req.body, {
+          new: true,
+          runValidators: true,
+        });
 
-      if (!recipe)
-        return next(new AppError("Not found document with that ID!", 404));
+        if (!recipe)
+          return next(new AppError("Not found document with that ID!", 404));
 
-      res.status(200).json({
-        status: "success",
-        data: {
-          data: recipe,
-        },
-      });
-    } catch (err) {
-      console.log(err);
+        res.status(200).json({
+          status: "success",
+          data: {
+            data: recipe,
+          },
+        });
+      } catch (err) {
+        console.log(err);
+      }
     }
-  });
+  );
 };

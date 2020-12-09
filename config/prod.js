@@ -7,4 +7,6 @@ module.exports = {
   stripePublicKey: process.env.STRIPE_PUBLIC_KEY,
   stripeSecretKey: process.env.STRIPE_SECRET_KEY,
   sendInBlueKey: process.env.SEND_IN_BLUE_KEY,
+  jwtSecret: process.env.JWT_SECRET,
+  jwtExpiresIn: process.env.JWT_EXPIRES_IN,
 };
