@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { fetchUser } from "../actions";
 
 import Landing from "./Landing";
-import Posts from "./Posts";
+import Posts from "./Posts/index";
 import Header from "./Header/index";
 
 const App = ({ fetchUser }) => {
