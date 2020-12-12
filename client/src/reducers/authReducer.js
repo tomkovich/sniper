@@ -1,12 +1,14 @@
-import { FETCH_USER } from "../actions/types";
+import { FETCH_USER_SUCCESS, USER_LOGIN_SUCCESS } from "../actions/types";
 
 const initialState = {
   user: null,
 };
 
 export const authReducer = (store = initialState, action) => {
+  console.log(action);
   switch (action.type) {
-    case FETCH_USER: {
+    case USER_LOGIN_SUCCESS:
+    case FETCH_USER_SUCCESS: {
       return {
         ...store,
         user: action.payload,

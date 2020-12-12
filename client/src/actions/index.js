@@ -1,9 +1,12 @@
 import axios from "axios";
-import { FETCH_USER } from "./types";
 
-export const fetchUser = () => async (dispatch) => {
+import { request } from "../utils/request";
+import { FETCH_USER, LOGIN_USER, USER_LOGIN_FAILED } from "./types";
+
+export const fetchUser = (payload) => async (dispatch) => {
   try {
-    const currentUser = await axios.get("/api/current_user");
+    const { id } = payload;
+    const currentUser = await axios.get(`/api/user/${id}`);
     dispatch({
       type: FETCH_USER,
       payload: currentUser.data,
@@ -24,3 +27,23 @@ export const handleToken = (token) => async (dispatch) => {
     console.log(err);
   }
 };
+
+// export const loginUser = (data) => async (dispatch) => {
+//   try {
+//     const response = await request("/api/login", "POST", data);
+
+//     const body = await response.json();
+//     if (response.ok) {
+//       dispatch({
+//         type: LOGIN_USER,
+//         payload: body.data,
+//       });
+//     }
+//     dispatch({
+//       type: USER_LOGIN_FAILED,
+//       payload: body.message,
+//     });
+//   } catch (err) {
+//     console.log(err);
+//   }
+// };

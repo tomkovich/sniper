@@ -1,13 +1,13 @@
+.app-container {
+  width: calc(100% - 240px);
+}
+
 img {
   max-width: 100%;
   height: auto;
 }
 
-.ml15 {
-  margin-left: 15px;
-}
-
-nav .brand-logo {
+.brand-logo {
   display: flex;
   align-items: center;
   justify-content: center;

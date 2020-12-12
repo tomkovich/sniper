@@ -1,31 +1,18 @@
-import React, { useEffect } from "react";
-import { BrowserRouter, Route } from "react-router-dom";
-import { connect } from "react-redux";
+import React from "react";
+import { BrowserRouter } from "react-router-dom";
 
-import { fetchUser } from "../actions";
-
-import Landing from "./Landing";
-import Posts from "./Posts/index";
 import Header from "./Header/index";
+import Routes from "./Routes";
 
-const App = ({ fetchUser }) => {
-  useEffect(() => {
-    fetchUser();
-  }, []);
-
+const App = () => {
   return (
     <BrowserRouter>
       <Header />
-      <Route exact path="/" component={Landing} />
-      <Route exact path="/posts" component={Posts} />
+      <div className="app-container">
+        <Routes />
+      </div>
     </BrowserRouter>
   );
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    fetchUser: () => dispatch(fetchUser()),
-  };
-};
-
-export default connect(null, mapDispatchToProps)(App);
+export default App;

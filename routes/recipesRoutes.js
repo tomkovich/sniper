@@ -39,7 +39,7 @@ module.exports = (app) => {
     }
   });
 
-  app.use(protect);
+  // app.use(protect);
 
   app.post("/api/recipes", async (req, res) => {
     const recipe = await Recipe.create(req.body);
