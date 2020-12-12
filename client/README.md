@@ -1,1 +1,1 @@
-![Однажды Эрнест Хемингуэй поспорил..](https://pikabu.ru/story/tak_stanovyatsya_java_script_programmistami_7561978)
+![Однажды Эрнест Хемингуэй поспорил..](https://cs10.pikabu.ru/post_img/2020/07/03/6/1593765930131852721.webp)
