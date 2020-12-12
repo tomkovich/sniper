@@ -12,7 +12,7 @@ module.exports = (app) => {
     passport.authenticate("google"),
     (req, res) => {
       createSendToken(req.user, 200, res);
-      res.redirect(`http://localhost:3000/posts`);
+      res.redirect(`/posts`);
     }
   );
 };
