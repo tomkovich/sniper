@@ -1,10 +1,11 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
 
 import logo from "../../assets/images/target.svg";
-import { COLORS } from "../../styles/colors";
-import Account from "./Account";
+import UserInfo from "./UserInfo";
+import MenuItem from "./MenuItem";
 
 // Material UI Components
 import { Link as LinkGoogle } from "@material-ui/core";
@@ -15,28 +16,26 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import List from "@material-ui/core/List";
 import Typography from "@material-ui/core/Typography";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import { MENU_ITEMS } from "../../constans/menuItems";
 
-const drawerWidth = 240;
+import { MENU_ITEMS } from "../../constans/menuItems";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
+    marginBottom: 40,
   },
   appBar: {
-    width: `calc(100% - ${drawerWidth}px)`,
-    marginRight: drawerWidth,
-    backgroundColor: COLORS.MAIN,
+    width: `calc(100% - ${theme.sidebarWidth})`,
+    backgroundColor: "transparent",
+    position: "relative",
+    marginRight: 0,
   },
   drawer: {
-    width: drawerWidth,
+    width: theme.sidebarWidth,
     flexShrink: 0,
   },
   drawerPaper: {
-    width: drawerWidth,
+    width: theme.sidebarWidth,
   },
   // necessary for content to be below app bar
   toolbar: theme.mixins.toolbar,
@@ -64,7 +63,7 @@ const Header = ({ user }) => {
   const classes = useStyles();
 
   const renderMarkup = user ? (
-    <Account user={user} />
+    <UserInfo user={user} />
   ) : (
     <LinkGoogle
       href="/auth/google"
@@ -81,7 +80,9 @@ const Header = ({ user }) => {
       <AppBar className={classes.appBar}>
         <Toolbar>
           <div className={classes.logo}>
-            <img src={logo} />
+            <Link to="/">
+              <img src={logo} />
+            </Link>
           </div>
           <Typography variant="h6" noWrap>
             {renderMarkup}
@@ -98,16 +99,19 @@ const Header = ({ user }) => {
       >
         <div className={classes.toolbar} />
         <List component="div">
-          {MENU_ITEMS.map(({ title, icon }) => (
-            <ListItem key={title} component={title === "logout" ? "a" : Link}>
-              <ListItemIcon>{icon}</ListItemIcon>
-              <ListItemText primary={title} />
-            </ListItem>
-          ))}
+          {MENU_ITEMS.map(({ availability, ...rest }, i) => {
+            if (!user && !availability) return <MenuItem key={i} {...rest} />;
+            else if (user && availability)
+              return <MenuItem key={i} {...rest} />;
+          })}
         </List>
       </Drawer>
     </div>
   );
+};
+
+Header.propTypes = {
+  user: PropTypes.object,
 };
 
 const mapStateToProps = (state) => ({

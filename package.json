@@ -8,8 +8,8 @@
     "npm": "6.14.0"
   },
   "scripts": {
-    "start": "node index.js node_env=production",
-    "server": "nodemon index.js node_env=development",
+    "start": "node index.js",
+    "server": "nodemon index.js",
     "client": "npm run start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
@@ -24,7 +24,9 @@
     "bcrypt": "^5.0.0",
     "body-parser": "^1.19.0",
     "concurrently": "^5.3.0",
+    "cookie-parser": "^1.4.5",
     "cookie-session": "^1.4.0",
+    "dotenv": "^8.2.0",
     "express": "*",
     "http-proxy-middleware": "^1.0.6",
     "jsonwebtoken": "^8.5.1",

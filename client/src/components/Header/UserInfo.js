@@ -3,7 +3,7 @@ import React from "react";
 
 import Payments from "../Payments";
 
-const Account = ({ user }) => {
+const UserInfo = ({ user }) => {
   const handleClick = async () => {
     const res = await Axios.post("/api/survey", {
       title: "meow",
@@ -11,7 +11,6 @@ const Account = ({ user }) => {
       subject: "A new cat",
       recipients: "opa@mail.com",
     });
-    console.log(res);
   };
 
   return (
@@ -26,4 +25,4 @@ const Account = ({ user }) => {
   );
 };
 
-export default Account;
+export default UserInfo;
