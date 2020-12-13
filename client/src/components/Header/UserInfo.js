@@ -39,7 +39,7 @@ const UserInfo = ({ user, updateStripeToken }) => {
 
   useEffect(() => {
     user?.photo.startsWith("image")
-      ? setPhotoURL(`http://localhost:5000/public/img/${user.photo}`)
+      ? setPhotoURL(`${window.location.origin}/images/users/${user.photo}`)
       : setPhotoURL(user.photo);
   }, []);
 
