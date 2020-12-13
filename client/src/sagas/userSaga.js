@@ -17,15 +17,16 @@ function* loginUserSaga({ payload }) {
     if (response.ok) {
       yield put({
         type: USER_LOGIN_SUCCESS,
-        payload: body.data,
+        payload: body.data.user,
       });
 
-      window.location = "/";
+      // window.location = "/";
+    } else {
+      yield put({
+        type: USER_LOGIN_FAILED,
+        payload: body.message,
+      });
     }
-    yield put({
-      type: USER_LOGIN_FAILED,
-      payload: body.message,
-    });
   } catch (err) {
     yield put({
       type: USER_LOGIN_FAILED,
@@ -48,11 +49,12 @@ function* fetchUserSaga() {
         type: FETCH_USER_SUCCESS,
         payload: body.data,
       });
+    } else {
+      yield put({
+        type: FETCH_USER_FAILED,
+        payload: body.message,
+      });
     }
-    yield put({
-      type: FETCH_USER_FAILED,
-      payload: body.message,
-    });
   } catch (err) {
     yield put({
       type: FETCH_USER_FAILED,

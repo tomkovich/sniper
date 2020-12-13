@@ -20,7 +20,7 @@ const Loading = ({ user, fetchUser, error }) => {
   const classes = useStyles();
   useEffect(() => {
     fetchUser();
-  }, []);
+  }, [fetchUser]);
 
   const loaderMarkup = (
     <div className={classes.loader}>

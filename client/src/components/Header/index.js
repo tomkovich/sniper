@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
-import logo from "../../assets/images/target.svg";
+import logo from "../../assets/images/cookie.svg";
 import UserInfo from "./UserInfo";
 import MenuItem from "./MenuItem";
 
@@ -16,6 +16,7 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import List from "@material-ui/core/List";
 import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
 
 import { MENU_ITEMS } from "../../constans/menuItems";
 
@@ -29,6 +30,8 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "transparent",
     position: "relative",
     marginRight: 0,
+    boxShadow: "none",
+    paddingTop: 10,
   },
   drawer: {
     width: theme.sidebarWidth,
@@ -36,9 +39,11 @@ const useStyles = makeStyles((theme) => ({
   },
   drawerPaper: {
     width: theme.sidebarWidth,
+    backgroundColor: theme.colors.sidebar,
   },
-  // necessary for content to be below app bar
-  toolbar: theme.mixins.toolbar,
+  toolbar: {
+    minHeight: 20,
+  },
   content: {
     flexGrow: 1,
     backgroundColor: theme.palette.background.default,
@@ -46,15 +51,15 @@ const useStyles = makeStyles((theme) => ({
   },
   logo: {
     width: 50,
-    maxHeight: "100%",
-    marginRight: 20,
+    margin: "10px auto 0 auto",
   },
   googleLink: {
     textDecoration: "none",
     fontSize: 13,
+    color: "#333",
     "&:hover": {
       textDecoration: "none",
-      color: "#f1f1f1",
+      color: "#e6e6e6",
     },
   },
 }));
@@ -70,7 +75,9 @@ const Header = ({ user }) => {
       color="inherit"
       className={classes.googleLink}
     >
-      Login with Google
+      <Button variant="contained" color="secondary">
+        Login with Google
+      </Button>
     </LinkGoogle>
   );
 
@@ -78,16 +85,7 @@ const Header = ({ user }) => {
     <div className={classes.root}>
       <CssBaseline />
       <AppBar className={classes.appBar}>
-        <Toolbar>
-          <div className={classes.logo}>
-            <Link to="/">
-              <img src={logo} />
-            </Link>
-          </div>
-          <Typography variant="h6" noWrap>
-            {renderMarkup}
-          </Typography>
-        </Toolbar>
+        <Toolbar>{renderMarkup}</Toolbar>
       </AppBar>
       <Drawer
         className={classes.drawer}
@@ -98,12 +96,21 @@ const Header = ({ user }) => {
         anchor="right"
       >
         <div className={classes.toolbar} />
+        <div className={classes.logo}>
+          <Link to="/">
+            <img src={logo} />
+          </Link>
+        </div>
+        <Typography
+          variant="body2"
+          style={{ margin: "10px auto 20px auto", color: "#bbbbbb" }}
+        >
+          Cook with us!
+        </Typography>
         <List component="div">
-          {MENU_ITEMS.map(({ availability, ...rest }, i) => {
-            if (!user && !availability) return <MenuItem key={i} {...rest} />;
-            else if (user && availability)
-              return <MenuItem key={i} {...rest} />;
-          })}
+          {MENU_ITEMS.map(({ role, ...rest }, i) => (
+            <MenuItem key={i} {...rest} role={!user ? "guest" : user.role} />
+          ))}
         </List>
       </Drawer>
     </div>

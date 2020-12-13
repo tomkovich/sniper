@@ -3,9 +3,6 @@ const AppError = require("../utils/AppError");
 const createSendToken = require("../utils/createSendToken");
 const { protect } = require("../utils/protect");
 const { uploadImages, resizeImages } = require("../utils/upload");
-const { promisify } = require("util");
-const jwt = require("jsonwebtoken");
-const { jwtSecret } = require("../config/keys");
 
 module.exports = (app) => {
   app.post("/api/signup", async (req, res, next) => {
@@ -46,8 +43,7 @@ module.exports = (app) => {
     }
   });
 
-  app.use(protect);
-  app.get("/api/me", async (req, res, next) => {
+  app.get("/api/me", protect, async (req, res, next) => {
     try {
       if (req.user) {
         return res.status(200).json({
@@ -66,9 +62,6 @@ module.exports = (app) => {
       httpOnly: true,
       expires: new Date(Date.now() + 10 * 1000),
     });
-
-    req.logout();
-    res.redirect("/");
 
     res.status(200).json({ status: "success" });
   });
