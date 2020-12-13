@@ -8,14 +8,19 @@ const AppError = require("./AppError");
 exports.protect = async (req, res, next) => {
   try {
     let token;
+    let cookie = req.cookies?.jwt;
 
     if (
       req.headers.authorization &&
       req.headers.authorization.startsWith("Bearer")
     ) {
       token = req.headers.authorization.split(" ")[1];
-    } else if (req.cookies && req.cookies.jwt) {
-      token = req.cookies.jwt;
+    } else if (cookie === "loggedout") {
+      return next(new AppError("You are not logged in", 401));
+    } else if (cookie) {
+      token = cookie;
+    } else {
+      return next(new AppError("You are not logged in", 401));
     }
 
     if (!token) {

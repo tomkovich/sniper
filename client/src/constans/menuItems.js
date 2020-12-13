@@ -5,25 +5,25 @@ import VpnKeyIcon from "@material-ui/icons/VpnKey";
 
 export const MENU_ITEMS = [
   {
-    availability: false,
+    availability: ["guest"],
     title: "Login",
     icon: <VpnKeyIcon />,
     path: "/login",
   },
   {
-    availability: "user",
+    availability: ["user", "admin"],
     title: "Account",
     icon: <PersonIcon />,
     path: "/account",
   },
   {
-    availability: false,
+    availability: ["guest", "user"],
     title: "Recipes",
     icon: <FastfoodIcon />,
     path: "/posts",
   },
   {
-    availability: "user",
+    availability: ["user", "admin"],
     title: "Logout",
     icon: <ExitToAppIcon />,
     path: "/api/logout",

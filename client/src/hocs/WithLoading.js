@@ -2,8 +2,7 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
-import { FETCH_USER } from "../../actions/types";
-import Posts from "../Posts";
+import { FETCH_USER } from "../actions/types";
 
 import { CircularProgress, makeStyles } from "@material-ui/core";
 
@@ -16,7 +15,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const Loading = ({ user, fetchUser, error }) => {
+const WithLoading = ({ children, user, error, fetchUser }) => {
   const classes = useStyles();
   useEffect(() => {
     fetchUser();
@@ -28,10 +27,10 @@ const Loading = ({ user, fetchUser, error }) => {
     </div>
   );
 
-  return !user && !error ? loaderMarkup : <Posts />;
+  return !user && !error ? loaderMarkup : children;
 };
 
-Loading.propTypes = {
+WithLoading.propTypes = {
   user: PropTypes.object,
   error: PropTypes.string,
 };
@@ -46,4 +45,4 @@ const mapDispatchToProps = (dispatch) => {
     fetchUser: (data) => dispatch({ type: FETCH_USER, data }),
   };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(Loading);
+export default connect(mapStateToProps, mapDispatchToProps)(WithLoading);

@@ -1,11 +1,4 @@
-const { jwtSecret, jwtExpiresIn } = require("../config/keys");
-const jwt = require("jsonwebtoken");
-
-const signToken = (id) => {
-  return jwt.sign({ id }, jwtSecret, {
-    expiresIn: jwtExpiresIn,
-  });
-};
+const signToken = require("./signToken");
 
 const createSendToken = (user, statusCode, res) => {
   const token = signToken(user._id);

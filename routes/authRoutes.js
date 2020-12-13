@@ -1,5 +1,5 @@
 const passport = require("passport");
-const createSendToken = require("../utils/createSendToken");
+const signToken = require("../utils/signToken");
 
 module.exports = (app) => {
   app.get(
@@ -11,8 +11,12 @@ module.exports = (app) => {
     "/auth/google/callback",
     passport.authenticate("google"),
     (req, res) => {
-      createSendToken(req.user, 200, res);
-      res.redirect(`/posts`);
+      const token = signToken(req.user._id);
+      res.cookie("jwt", token, {
+        expires: new Date(Date.now() + 360000),
+        httpOnly: true,
+      });
+      res.redirect(`/`);
     }
   );
 };
