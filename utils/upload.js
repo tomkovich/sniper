@@ -33,7 +33,7 @@ exports.resizeImages = async (req, res, next) => {
       .resize(2000, 1333)
       .toFormat("jpeg")
       .jpeg({ quality: 90 })
-      .toFile(`public/img/${req.body.photo}`);
+      .toFile(`client/public/images/users/${req.body.photo}`);
 
     next();
   } catch (err) {
