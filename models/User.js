@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const assert = require("assert").strict;
 const validator = require("validator");
 const bcrypt = require("bcrypt");
 
@@ -17,7 +18,7 @@ const userSchema = new mongoose.Schema({
   },
   photo: {
     type: String,
-    default: "default.jpg",
+    default: "image-default.jpg",
   },
   credits: {
     type: Number,

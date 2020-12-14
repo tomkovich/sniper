@@ -38,7 +38,7 @@ const UserInfo = ({ user, updateStripeToken }) => {
   const [photoURL, setPhotoURL] = useState("");
 
   useEffect(() => {
-    user?.photo.startsWith("image")
+    user?.photo?.startsWith("image")
       ? setPhotoURL(`${window.location.origin}/images/users/${user.photo}`)
       : setPhotoURL(user.photo);
   }, []);
