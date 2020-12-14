@@ -10,6 +10,10 @@ module.exports = (app) => {
       if (await User.findOne({ email: req.body.email }))
         return next(new AppError("User already exists"));
 
+      if (req.body.password !== req.body.confirmPassword) {
+        return next(new AppError("Password are not the same"));
+      }
+
       const newUser = await User.create({
         name: req.body.name,
         email: req.body.email,
@@ -17,12 +21,14 @@ module.exports = (app) => {
         confirmPassword: req.body.confirmPassword,
       });
 
-      // const url = `${req.protocol}://${req.get("host")}/account`;
-      // await new Email(newUser, url).sendWelcome();
-
       createSendToken(newUser, 201, res);
     } catch (err) {
-      console.log(err);
+      if (err.name == "ValidationError") {
+        next(new AppError(err.errors.password.message, 402));
+      } else {
+        console.error(err);
+        res.status(500).json(err);
+      }
     }
   });
 
