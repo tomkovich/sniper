@@ -26,6 +26,6 @@ export const MENU_ITEMS = [
     availability: ["user", "admin"],
     title: "Logout",
     icon: <ExitToAppIcon />,
-    path: "/api/logout",
+    path: "/logout",
   },
 ];

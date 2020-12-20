@@ -9,6 +9,9 @@ import {
   USER_SIGNUP_SUCCESS,
   FETCH_USER_FAILED,
   FETCH_USER_SUCCESS,
+  USER_LOGOUT,
+  USER_LOGOUT_SUCCESS,
+  USER_LOGOUT_FAILED,
 } from "../actions/types";
 import { request } from "../utils/request";
 
@@ -96,4 +99,37 @@ export function* watchUserSignupSaga() {
   yield takeLatest(USER_SIGNUP, userSignupSaga);
 }
 
-export default [watchLoginUserSaga, watchFetchUserSaga, watchUserSignupSaga];
+function* logoutUserSaga() {
+  try {
+    const response = yield request("/api/logout", "GET");
+    const body = yield response.json();
+
+    if (response.ok) {
+      yield put({
+        type: USER_LOGOUT_SUCCESS,
+        payload: null,
+      });
+    } else {
+      yield put({
+        type: USER_LOGOUT_FAILED,
+        payload: body.message,
+      });
+    }
+  } catch (err) {
+    yield put({
+      type: USER_LOGOUT_FAILED,
+      payload: err,
+    });
+  }
+}
+
+export function* watchLogoutUserSaga() {
+  yield takeLatest(USER_LOGOUT, logoutUserSaga);
+}
+
+export default [
+  watchLoginUserSaga,
+  watchFetchUserSaga,
+  watchUserSignupSaga,
+  watchLogoutUserSaga,
+];

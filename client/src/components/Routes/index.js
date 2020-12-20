@@ -3,6 +3,7 @@ import { Route } from "react-router-dom";
 
 import Account from "../Account";
 import Login from "../Login";
+import Logout from "../Logout";
 import Posts from "../Posts";
 import Signup from "../Signup";
 
@@ -11,6 +12,7 @@ const Routes = () => {
     <>
       <Route exact path="/" component={Posts} />
       <Route exact path="/login" component={Login} />
+      <Route exact path="/logout" component={Logout} />
       <Route exact path="/signup" component={Signup} />
       <Route exact path="/account" component={Account} />
     </>

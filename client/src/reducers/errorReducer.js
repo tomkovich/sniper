@@ -2,6 +2,7 @@ import {
   FETCH_USER_FAILED,
   UPDATE_USER_FAILED,
   USER_LOGIN_FAILED,
+  USER_LOGOUT_FAILED,
   USER_SIGNUP_FAILED,
 } from "../actions/types";
 
@@ -29,6 +30,11 @@ export const errorReducer = (state = initialState, action) => {
         stripeError: action.payload,
       };
     case USER_SIGNUP_FAILED:
+      return {
+        ...state,
+        signupError: action.payload,
+      };
+    case USER_LOGOUT_FAILED:
       return {
         ...state,
         signupError: action.payload,

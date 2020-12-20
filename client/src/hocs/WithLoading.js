@@ -15,11 +15,9 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const WithLoading = ({ children, user, error, fetchUser }) => {
+const WithLoading = ({ children, isUserLoaded, error, fetchUser }) => {
   const classes = useStyles();
-  useEffect(() => {
-    fetchUser();
-  }, [fetchUser]);
+  useEffect(() => fetchUser(), [fetchUser]);
 
   const loaderMarkup = (
     <div className={classes.loader}>
@@ -27,7 +25,7 @@ const WithLoading = ({ children, user, error, fetchUser }) => {
     </div>
   );
 
-  return !user && !error ? loaderMarkup : children;
+  return !isUserLoaded && !error ? loaderMarkup : children;
 };
 
 WithLoading.propTypes = {
@@ -36,7 +34,7 @@ WithLoading.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  user: state.auth.user,
+  isUserLoaded: state.auth.isLoaded,
   error: state.errors.loggout,
 });
 
