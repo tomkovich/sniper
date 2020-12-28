@@ -26,7 +26,7 @@ exports.uploadImages = upload.fields([
 
 exports.resizeImages = async (req, res, next) => {
   try {
-    if (!req.files.photo) return next();
+    if (!req.files || !req.files.photo) return next();
 
     req.body.photo = `image-${req.params.id}-${Date.now()}-cover.jpeg`;
     await sharp(req.files.photo[0].buffer)

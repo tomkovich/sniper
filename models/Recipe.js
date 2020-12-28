@@ -4,6 +4,7 @@ const RecipeSchema = new mongoose.Schema({
   title: {
     type: String,
     required: true,
+    maxlength: 56,
   },
   prepareTime: Number,
   services: Number,
@@ -20,6 +21,7 @@ const RecipeSchema = new mongoose.Schema({
     default: 0,
   },
   photo: String,
+  description: String,
 });
 
 const Recipe = mongoose.model("Recipe", RecipeSchema);

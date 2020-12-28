@@ -1,4 +1,6 @@
 import { put, takeLatest } from "redux-saga/effects";
+import { request } from "../utils/request";
+
 import {
   FETCH_USER,
   USER_LOGIN,
@@ -12,8 +14,11 @@ import {
   USER_LOGOUT,
   USER_LOGOUT_SUCCESS,
   USER_LOGOUT_FAILED,
+  GET_USER,
+  GET_USER_SUCCESS,
+  GET_USER_FAILED,
 } from "../actions/types";
-import { request } from "../utils/request";
+import { getUserAction } from "../actions";
 
 function* loginUserSaga({ payload }) {
   try {
