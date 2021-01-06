@@ -26,13 +26,13 @@ exports.uploadImages = upload.fields([
 
 exports.resizeImages = async (req, res, next) => {
   try {
-    if (!req.files.photo) return next();
+    if (!req.files || !req.files.photo) return next();
 
     req.body.photo = `image-${req.params.id}-${Date.now()}-cover.jpeg`;
     await sharp(req.files.photo[0].buffer)
-      .resize(2000, 1333)
+      .resize(100, 100)
       .toFormat("jpeg")
-      .jpeg({ quality: 90 })
+      .jpeg({ quality: 100 })
       .toFile(`client/public/images/users/${req.body.photo}`);
 
     next();

@@ -4,6 +4,8 @@ import {
   USER_SIGNUP_SUCCESS,
   USER_LOGIN_SUCCESS,
   USER_LOGOUT_SUCCESS,
+  EDIT_USER_SUCCESS,
+  UPLOAD_IMAGE_SUCCESS,
 } from "../actions/types";
 
 const initialState = {
@@ -17,7 +19,9 @@ export const authReducer = (store = initialState, action) => {
     case UPDATE_USER_SUCCESS:
     case USER_SIGNUP_SUCCESS:
     case USER_LOGOUT_SUCCESS:
+    case UPLOAD_IMAGE_SUCCESS:
     case USER_LOGIN_SUCCESS:
+    case EDIT_USER_SUCCESS:
     case FETCH_USER_SUCCESS: {
       return {
         ...store,

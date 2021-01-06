@@ -3,6 +3,8 @@ const AppError = require("../utils/AppError");
 const createSendToken = require("../utils/createSendToken");
 const { protect } = require("../utils/protect");
 const { uploadImages, resizeImages } = require("../utils/upload");
+const Email = require("../utils/Email");
+const crypto = require("crypto");
 
 module.exports = (app) => {
   app.post("/api/signup", async (req, res, next) => {
@@ -40,6 +42,8 @@ module.exports = (app) => {
         return next(new AppError("Please provide email or password!", 400));
 
       const user = await User.findOne({ email }).select("+password");
+      console.log(password);
+      console.log(user.password);
       if (!user || !(await user.correctPassword(password, user.password)))
         return next(new AppError("Incorrect email or password", 401));
 
@@ -99,7 +103,7 @@ module.exports = (app) => {
         const user = await User.findByIdAndUpdate(req.params.id, req.body, {
           new: true,
           runValidators: true,
-        });
+        }).select("+password");
 
         if (!user)
           return next(new AppError("Not found document with that ID!", 404));
@@ -115,4 +119,57 @@ module.exports = (app) => {
       }
     }
   );
+
+  app.patch("/api/user/updatePassword/:id", async (req, res, next) => {
+    try {
+      const user = await User.findById(req.params.id).select("+password");
+
+      if (
+        !(await user.correctPassword(req.body.currentPassword, user.password))
+      ) {
+        return next(new AppError("Current password is wrong"), 401);
+      }
+
+      user.password = req.body.password;
+      user.confirmPassword = req.body.confirmPassword;
+      await user.save();
+
+      createSendToken(user, 201, res);
+
+      next();
+    } catch (err) {
+      console.log(err);
+    }
+  });
+
+  app.patch(`/forgotPassword`, async (req, res, next) => {
+    const user = await User.findOne({ email: req.body.email });
+    if (!user) {
+      return next(new AppError("There is not user email", 404));
+    }
+
+    const newPassword = await user.createPassword();
+    await user.save({ validateBeforeSave: false });
+
+    try {
+      await new Email(user, newPassword).sendPasswordReset();
+
+      res.status(200).json({
+        status: "success",
+        message: "New password has created",
+      });
+    } catch (err) {
+      user.passwordResetToken = undefined;
+      user.passwordResetExpires = undefined;
+
+      await user.save({ validateBeforeSave: false });
+      console.log(err);
+      return next(
+        new AppError(
+          "There was an error sending the email. Please try again",
+          500
+        )
+      );
+    }
+  });
 };
