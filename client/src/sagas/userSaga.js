@@ -12,6 +12,12 @@ import {
   USER_LOGOUT,
   USER_LOGOUT_SUCCESS,
   USER_LOGOUT_FAILED,
+  EDIT_USER_SUCCESS,
+  EDIT_USER,
+  EDIT_USER_FAILED,
+  UPDATE_USER_PASSWORD,
+  UPDATE_USER_PASSWORD_SUCCESS,
+  UPDATE_USER_PASSWORD_FAILED,
 } from "../actions/types";
 import { request } from "../utils/request";
 
@@ -127,9 +133,77 @@ export function* watchLogoutUserSaga() {
   yield takeLatest(USER_LOGOUT, logoutUserSaga);
 }
 
+function* updateUserSaga({ payload }) {
+  try {
+    const response = yield request(
+      `/api/user/${payload.id}/`,
+      "PATCH",
+      payload
+    );
+
+    const body = yield response.json();
+
+    if (response.ok) {
+      yield put({
+        type: EDIT_USER_SUCCESS,
+        payload: body.data.data,
+      });
+    } else {
+      yield put({
+        type: EDIT_USER_FAILED,
+        payload: body.message,
+      });
+    }
+  } catch (err) {
+    yield put({
+      type: EDIT_USER_FAILED,
+      payload: err,
+    });
+  }
+}
+
+export function* watchUpdateUserSaga() {
+  yield takeLatest(EDIT_USER, updateUserSaga);
+}
+
+function* updateUserPasswordSaga({ payload }) {
+  try {
+    const response = yield request(
+      `/api/user/updatePassword/${payload.id}/`,
+      "PATCH",
+      payload
+    );
+
+    const body = yield response.json();
+
+    if (response.ok) {
+      yield put({
+        type: UPDATE_USER_PASSWORD_SUCCESS,
+        payload: body.data.data,
+      });
+    } else {
+      yield put({
+        type: UPDATE_USER_PASSWORD_FAILED,
+        payload: body.message,
+      });
+    }
+  } catch (err) {
+    yield put({
+      type: UPDATE_USER_PASSWORD_FAILED,
+      payload: err,
+    });
+  }
+}
+
+export function* watchUpdateUserPasswordSaga() {
+  yield takeLatest(UPDATE_USER_PASSWORD, updateUserPasswordSaga);
+}
+
 export default [
   watchLoginUserSaga,
   watchFetchUserSaga,
   watchUserSignupSaga,
   watchLogoutUserSaga,
+  watchUpdateUserSaga,
+  watchUpdateUserPasswordSaga,
 ];

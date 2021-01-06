@@ -1,4 +1,5 @@
 import {
+  EDIT_USER_FAILED,
   FETCH_USER_FAILED,
   UPDATE_USER_FAILED,
   USER_LOGIN_FAILED,
@@ -10,9 +11,12 @@ const initialState = {
   loginError: "",
   loggout: "",
   signupError: "",
+  stripeError: "",
+  credentialsError: "",
 };
 
 export const errorReducer = (state = initialState, action) => {
+  console.log(action);
   switch (action.type) {
     case USER_LOGIN_FAILED:
       return {
@@ -30,15 +34,17 @@ export const errorReducer = (state = initialState, action) => {
         stripeError: action.payload,
       };
     case USER_SIGNUP_FAILED:
-      return {
-        ...state,
-        signupError: action.payload,
-      };
     case USER_LOGOUT_FAILED:
       return {
         ...state,
         signupError: action.payload,
       };
+    case EDIT_USER_FAILED: {
+      return {
+        ...state,
+        credentialsError: action.payload,
+      };
+    }
     default:
       return state;
   }
